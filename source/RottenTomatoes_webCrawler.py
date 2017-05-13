@@ -1,9 +1,8 @@
 import re
-import urllib
 from bs4 import BeautifulSoup
 import time
 import requests
-import sys,re
+import sys
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -21,7 +20,6 @@ def name_to_tag(name):
 url = "https://www.rottentomatoes.com/celebrity/zhang_ziyi"
 source_code = requests.get(url)  #
 soup = BeautifulSoup(source_code.text, 'lxml')
-data = urllib.urlopen(url).read()
 list_soup = soup.find('tbody')
 title_dict = {}
 href_dict = {}
@@ -89,10 +87,7 @@ for k in rating_dict:
             # comment = comment.replace('<p class="comment clamp clamp-6>", '')
             # comment = comment.replace('</p>', '')
             # comment = comment.replace('<br/>', '')
-#            try:
-                best_comments.writelines(comment + '\n')
-#            except:
-#                pass
+            best_comments.writelines(comment + '\n')
         intro = m_soup.find('div', {'class': "movie_synopsis clamp clamp-6"}).contents[0]
         intro = str(intro)
         best_intro[m_title] = intro
@@ -146,10 +141,7 @@ for k in rating_dict:
             pattern = re.compile("<.*>")
             for found_trash in re.findall(pattern, comment):
                 comment = comment.replace(found_trash, '')
-#            try:
-                worst_comments.writelines(comment + '\n')
-#            except:
-#                pass
+            worst_comments.writelines(comment + '\n')
         intro = m_soup.find('div', {'class': "movie_synopsis clamp clamp-6"}).contents[0]
         intro = str(intro)
         worst_intro[m_title] = intro
@@ -181,6 +173,10 @@ for key in worst_mov:
     movie_information = worst_info[key]
     worst_movies.writelines(movie_information.encode('utf8') + '\n')
 worst_movies.close()
+
+# Reference for functions wordListToFreqDict, sortFreqDict and removeStopwords:
+# William J. Turkel and Adam Crymble , "Counting Word Frequencies with Python,"
+# Programming Historian, (2012-07-17), http://programminghistorian.org/lessons/counting-frequencies
 
 
 def wordListToFreqDict(wordlist):
@@ -258,7 +254,6 @@ def create_WordFrequency(input, output):
     fin.close()
 
     wordlist = wordstring.split()
-    wordfreq = []
     wordlist = removeStopwords(wordlist, stopwords)
     dictionary = wordListToFreqDict(wordlist)
     sorteddict = sortFreqDict(dictionary)
