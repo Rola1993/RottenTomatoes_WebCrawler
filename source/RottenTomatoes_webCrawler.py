@@ -262,7 +262,7 @@ def create_WordFrequency(input, output):
 
     for s in sorteddict:
         print(str(s))
-        WordFrequency.writelines(str(s))
+        WordFrequency.writelines(str(s) + '\n')
     WordFrequency.close()
 
 input_best = 'best_comments.txt'
